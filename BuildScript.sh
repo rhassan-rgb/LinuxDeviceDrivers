@@ -13,6 +13,10 @@ IS_CROSS=
 #extra flags
 EXTRA_CFLAGS=
 
+# copy dtb file
+DTB_FILE=
+COPY_DTB=
+
 # Function to display help
 usage() {
   echo "Usage: $0 --arch=ARCH --kern=KERNEL_SRC --cross=CROSS_COMPILE"
@@ -21,6 +25,7 @@ usage() {
   echo "  --kern    Kernel Source Location current /lib/modules/$(uname -r)/build/"
   echo "  --cross   Cross compiler prefix"
   echo "            could be: arm-linux-gnueabihf- , arm-none-linux-gnueabi-, ...etc"
+  echo "  --get_dtb copy dtb file to current location, currently only arm supported"
 }
 
 # Parse command-line options
@@ -83,11 +88,17 @@ while [[ $# -gt 0 ]]; do
             IS_CLEAN="YES"
             shift
         ;;
-    *)
-        # passing any invalid option will cause the script to fail
-        echo "Invalid option: $1"
-        usage
-        exit
+        --get-dtb=*)
+            # slice the string after =
+            DTB_FILE="${1#*=}"
+            COPY_DTB="YES"
+            shift
+        ;; 
+        *)
+            # passing any invalid option will cause the script to fail
+            echo "Invalid option: $1"
+            usage
+            exit
         ;;
   esac
 done
@@ -124,4 +135,9 @@ if [[ "YES" == ${IS_CLEAN} ]]; then
     exit
 fi
 
-make 
+make
+
+if [[ 0 -eq $? && -n ${COPY_DTB} ]]; then
+    echo "Copying ${DTB_FILE}..."
+    cp ${KDIR}/arch/arm/boot/dts/${DTB_FILE} .
+fi

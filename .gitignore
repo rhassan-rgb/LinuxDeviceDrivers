@@ -9,3 +9,4 @@
 *.alias*
 *.dep
 *.bin
+*.dtb
