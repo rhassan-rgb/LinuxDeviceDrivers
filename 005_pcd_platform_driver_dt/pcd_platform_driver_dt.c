@@ -13,9 +13,12 @@
 #define BASE_NUMBER 0u
 #define DEVICE_COUNT 10u
 
-static int check_permission(int dev_perm, int access_mode);
 int pcd_platform_driver_probe(struct platform_device *);
 int pcd_platform_driver_remove(struct platform_device *);
+
+/* helper functions */
+struct pcdev_platform_data * pcdev_get_platfrom_from_dt(struct device *dev);
+static int check_permission(int dev_perm, int access_mode);
 
 /* File Methods */
 loff_t pcd_lseek (struct file *filp, loff_t offset, int whence);
@@ -112,7 +115,11 @@ static int __init pcd_driver_init(void)
         return ret;
     }
     /* 2. Create device Class under /sys/class */
+    #ifdef HOST
+    pcdrv_data.class_pcd = class_create("rgb_chrdev_class");
+    #else
     pcdrv_data.class_pcd = class_create(THIS_MODULE, "rgb_chrdev_class");
+    #endif
     if (IS_ERR(pcdrv_data.class_pcd))
     {
         pr_err("error Creating class \n");

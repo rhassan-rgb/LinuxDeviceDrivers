@@ -48,6 +48,15 @@ struct platform_driver pcd_platform_driver = {
 
 /* Driver private data object */
 struct pcdrv_private_data pcdrv_data = {.total_devices = 0};
+/* attribute functions */
+ssize_t show_max_size(struct device *dev, struct device_attribute *attr, char *buf);
+ssize_t store_max_size(struct device *dev, struct device_attribute *attr, const char *buf, size_t count);
+
+ssize_t show_serial_number(struct device *dev, struct device_attribute *attr, char *buf);
+ssize_t store_serial_number(struct device *dev, struct device_attribute *attr, const char *buf, size_t count);
+/* Helper functions */
+int pcd_create_attribute_files(struct device* dev);
+
 ssize_t show_max_size(struct device *dev, struct device_attribute *attr, char *buf)
 {
     /* access device data */

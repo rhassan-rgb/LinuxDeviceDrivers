@@ -26,7 +26,8 @@ ssize_t pcd_read (struct file * filp, char __user *buff, size_t count, loff_t * 
 ssize_t pcd_write (struct file * filp, const char __user *buff, size_t count, loff_t *f_pos);
 int pcd_open (struct inode *inode, struct file *filp);
 int pcd_release (struct inode *inode, struct file *filp);
-
+/* helper functions */
+int check_permission(int dev_perm, int access_mode);
 /* Module data r/w buffer*/
 char device0_buffer[DEV0_MEM_SIZE];
 char device1_buffer[DEV1_MEM_SIZE];
@@ -120,7 +121,11 @@ static int __init pcd_driver_init(void)
         pr_info("Device Numer <Major>:<Minor> = %d:%d\n", MAJOR(pcdrv_data.device_number + i), MINOR(pcdrv_data.device_number + i));
     
     /*4. Create device class under /sys/class/ */
+    #ifdef HOST
     pcdrv_data.class_pcd = class_create("pcdrv_class");
+    #else
+    pcdrv_data.class_pcd = class_create(THIS_MODULE, "pcdrv_class");
+    #endif
     if (IS_ERR(pcdrv_data.class_pcd))
     {
         pr_err("error Creating class \n");
@@ -275,7 +280,6 @@ ssize_t pcd_write (struct file * filp, const char __user *buff, size_t count, lo
         }
         count = max_size - *f_pos;
 
-    }
     }
 
     /* Copy from user */
