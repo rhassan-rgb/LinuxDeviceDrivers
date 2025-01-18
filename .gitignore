@@ -6,3 +6,6 @@
 *.mod.c
 *.symvers
 *.order
+*.alias*
+*.dep
+*.bin

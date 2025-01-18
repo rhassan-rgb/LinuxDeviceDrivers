@@ -1,4 +1,4 @@
-obj-m := pcd.o
+obj-m := pcd_device_setup.o pcd_platform_driver.o
 ARCH=arm
 CROSS_COMPILE=arm-none-linux-gnueabihf-
 KDIR=/home/rgb/workspace/ldd/source/6.1.80-ti-rt-r34/

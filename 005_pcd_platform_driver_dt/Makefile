@@ -1,7 +1,7 @@
-obj-m := pcd.o
+obj-m := pcd_platform_driver_dt.o pcd_device_setup.o
 ARCH=arm
-CROSS_COMPILE=arm-none-linux-gnueabihf-
-KDIR=/home/rgb/workspace/ldd/source/6.1.80-ti-rt-r34/
+CROSS_COMPILE=arm-linux-gnueabihf-
+KDIR=/home/rgb/workspace/ldd/source/beagle/
 HOST_KDIR=/lib/modules/$(shell uname -r)/build/
 
 
@@ -17,6 +17,9 @@ host:
 	make -C $(HOST_KDIR) M=$(PWD) modules
 hostclean:
 	make -C $(HOST_KDIR) M=$(PWD) clean
-
+copy-dtb:
+	scp /home/rgb/workspace/ldd/source/beagle/arch/arm/boot/dts/am335x-boneblack.dtb debian@192.168.7.2:/home/debian/drivers/
+copy-drivers:
+	scp *.ko debian@192.168.7.2:/home/debian/drivers/
 
 

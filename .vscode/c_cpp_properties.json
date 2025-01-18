@@ -1,0 +1,20 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "/usr/include",
+                "/usr/local/include",
+                "/usr/src/kernels/6.9.12-200.fc40.x86_64/include/",
+                "/usr/lib/gcc/x86_64-redhat-linux/14/include/",
+                "/usr/src/kernels/6.9.12-200.fc40.x86_64/arch/x86/include/"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "c17",
+            "intelliSenseMode": "linux-gcc-x64"
+        }
+    ],
+    "version": 4
+}

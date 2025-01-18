@@ -1,9 +1,8 @@
-obj-m := pcd.o
+obj-m := gpio_sysfs_drv.o
 ARCH=arm
-CROSS_COMPILE=arm-none-linux-gnueabihf-
-KDIR=/home/rgb/workspace/ldd/source/6.1.80-ti-rt-r34/
+CROSS_COMPILE=arm-linux-gnueabihf-
+KDIR=/home/rgb/workspace/ldd/source/beagle/
 HOST_KDIR=/lib/modules/$(shell uname -r)/build/
-
 
 
 all:
@@ -14,9 +13,12 @@ help:
 	make ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_COMPILE) -C $(KDIR) M=$(PWD) help
 host:
 	echo $(shell uname -r)
-	make -C $(HOST_KDIR) M=$(PWD) modules
+	make -C $(HOST_KDIR) M=$(PWD) EXTRA_CFLAGS+="-DHOST" modules
 hostclean:
 	make -C $(HOST_KDIR) M=$(PWD) clean
-
+copy-dtb:
+	scp /home/rgb/workspace/ldd/source/beagle/arch/arm/boot/dts/am335x-boneblack.dtb debian@192.168.7.2:/home/debian/drivers/
+copy-drivers:
+	scp *.ko debian@192.168.7.2:/home/debian/drivers/
 
 

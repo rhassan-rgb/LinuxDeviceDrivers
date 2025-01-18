@@ -1,0 +1,15 @@
+{
+    "files.associations": {
+        "module.h": "c",
+        "init.h": "c",
+        "stat.h": "c",
+        "list.h": "c",
+        "container_of.h": "c",
+        "stddef.h": "c",
+        "build_bug.h": "c",
+        "compiler.h": "c",
+        "fs.h": "c",
+        "linkage.h": "c",
+        "device.h": "c"
+    }
+}
